@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/assets/misc/wizard_sit.png">
+    <title>Wizard ˸ Gallery</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v7.1.0/css/all.css"/>
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v7.1.0/css/sharp-solid.css"/>
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v7.1.0/css/sharp-regular.css"/>
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v7.1.0/css/sharp-light.css"/>
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v7.1.0/css/duotone.css"/>
+    <link href="/gallery/styles.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/universal.css" rel="stylesheet" type="text/css" media="all">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jersey+20&family=Jersey+25&family=League+Spartan:wght@100..900&family=Lexend:wght@100..900&family=Yrsa:ital,wght@0,300..700;1,300..700&display=swap');
+
+        html {
+            background-color: black;
+        }
+
+    </style>
+</head>
+<body cds-theme="dark">
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <header>
+                <div class="navbar">
+                    <a href="/">
+                        <div class="navlink">
+                            <i class="fa-solid fa-angle-left"></i>
+                            <p>Home</p>
+                        </div>
+                    </a>
+                </div>
+                <h1>Wizard's Gallery and Image Archive</h1>
+                <p id="image-count-info"></p>
+            </header>
+            <div class="sidebar-section">
+                <h2>Filters</h2>
+                
+                <div id="mobile-checkbox-filters" class="mobile-filters">
+                    <div class="customCheckBoxHolder">
+                        
+                        <input class="customCheckBoxInput checkbox-item" id="mobile-rpf" data-tag="rpf" type="checkbox" />
+                        <label class="customCheckBoxWrapper" for="mobile-rpf">
+                            <div class="customCheckBox">
+                                <div class="inner">RPF</div>
+                            </div>
+                        </label>
+
+                        <input class="customCheckBoxInput checkbox-item" id="mobile-piss" data-tag="piss" type="checkbox" />
+                        <label class="customCheckBoxWrapper" for="mobile-piss">
+                            <div class="customCheckBox">
+                                <div class="inner">Piss</div>
+                            </div>
+                        </label>
+
+                        <input class="customCheckBoxInput checkbox-item" id="mobile-restrained" data-tag="restrained" type="checkbox" />
+                        <label class="customCheckBoxWrapper" for="mobile-restrained">
+                            <div class="customCheckBox">
+                                <div class="inner">Restrained</div>
+                            </div>
+                        </label>
+
+                        <input class="customCheckBoxInput checkbox-item" id="mobile-distress" data-tag="distress" type="checkbox" />
+                        <label class="customCheckBoxWrapper" for="mobile-distress">
+                            <div class="customCheckBox">
+                                <div class="inner">Distress</div>
+                            </div>
+                        </label>
+
+                        <input class="customCheckBoxInput checkbox-item" id="mobile-incest" data-tag="incest" type="checkbox" />
+                        <label class="customCheckBoxWrapper" for="mobile-incest">
+                            <div class="customCheckBox">
+                                <div class="inner">Incest</div>
+                            </div>
+                        </label>
+
+                        <input class="customCheckBoxInput checkbox-item" id="mobile-noncon" data-tag="noncon" type="checkbox" />
+                        <label class="customCheckBoxWrapper" for="mobile-noncon">
+                            <div class="customCheckBox">
+                                <div class="inner">Noncon</div>
+                            </div>
+                        </label>
+
+                        <input class="customCheckBoxInput checkbox-item" id="mobile-age" data-tag="age" type="checkbox" />
+                        <label class="customCheckBoxWrapper" for="mobile-age">
+                            <div class="customCheckBox">
+                                <div class="inner">Age</div>
+                            </div>
+                        </label>
+
+                    </div>
+                </div>
+
+                <div id="checkbox-filters">
+                    <div class="filter-item">
+                        <span>RPF</span>
+                        <label class="switch">
+                            <input type="checkbox" id="rpf" data-tag="rpf" class="checkbox-item toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="filter-item">
+                        <span>Piss</span>
+                        <label class="switch">
+                            <input type="checkbox" id="piss" data-tag="piss" class="checkbox-item toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="filter-item">
+                        <span>Restrained</span>
+                        <label class="switch">
+                            <input type="checkbox" id="restrained" data-tag="restrained" class="checkbox-item toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="filter-item">
+                        <span>Distress</span>
+                        <label class="switch">
+                            <input type="checkbox" id="distress" data-tag="distress" class="checkbox-item toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="filter-item">
+                        <span>Incest</span>
+                        <label class="switch">
+                            <input type="checkbox" id="incest" data-tag="incest" class="checkbox-item toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="filter-item">
+                        <span>Noncon</span>
+                        <label class="switch">
+                            <input type="checkbox" id="noncon" data-tag="noncon" class="checkbox-item toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="filter-item">
+                        <span>Age</span>
+                        <label class="switch">
+                            <input type="checkbox" id="age" data-tag="age" class="checkbox-item toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <button id="selectAllCheckboxes">Select All</button>
+
+             <div class="sidebar-section">
+                <h3>Fandom</h3>
+                <div class="custom-dropdown" id="fandom-dropdown" data-value="all">
+                    <button class="drop-btn">Show All</button>
+                    <div class="drop-menu">
+                        <a data-value="all" class="selected">Show All</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3>Sort Order</h3>
+                <div class="custom-dropdown" id="sort-dropdown" data-value="custom">
+                    <button class="drop-btn">Custom</button>
+                    <div class="drop-menu">
+                        <a data-value="custom" class="selected">Custom</a>
+                        <a data-value="newest">Newest First</a>
+                        <a data-value="oldest">Oldest First</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <div class="main-content">
+            <div class="gallery-area">
+                <div class="gallery-container">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="image-overlay" class="hidden">
+        <div class="preview-container">
+            <div class="image-wrapper">
+                <img id="preview-image-1" class="preview-image" src="" alt="Preview Version 1" crossorigin="anonymous">
+            </div>
+            <div class="image-wrapper">
+                <img id="preview-image-2" class="preview-image" src="" alt="Preview Version 2" crossorigin="anonymous">
+            </div>
+        </div>
+        <button id="close-overlay">&times;</button>
+    </div>
+    
+<script src="/gallery/gallery.js"></script>
+</body>
+</html>

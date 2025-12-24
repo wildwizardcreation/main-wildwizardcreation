@@ -1,0 +1,760 @@
+:root {
+    --title-text: white;
+    --sub-text: grey;
+    --link-text: hsl(203, 62%, 96%);
+    --link-hover: pink;
+    --text: rgba(255, 255, 255, 0.322);
+    --light-overlay: hsla(0 0% 100% / 0.1);
+    --dark-overlay: hsla(0, 0%, 0%, 0.1);
+    --border-color: rgb(39, 39, 39);
+    --animate-delay: 0.2s;
+}
+
+.twitter-theme, .card.twitter {
+    --background: hsl(0 0 0);
+    --border-color: hsl(206, 7%, 20%);
+    --text: hsl(200, 7%, 91%);
+    --title-text: hsl(200, 7%, 91%);
+    --sub-text: hsl(210, 4%, 46%);
+    --link-text: hsl(204.17 87.55% 52.75%);
+    font-family: 'Twitter Chirp', sans-serif;
+}
+
+.tumblr-theme, .card.tumblr {
+    --background: #263329;
+    --border-color: #3c483f;
+    --text: #feedd3;
+    --title-text: #feedd3;
+    --sub-text: #feedd3;
+    --light-overlay: hsla(36, 96%, 91%, 0.4);
+    --dark-overlay: hsla(0, 0%, 0%, 0.4);
+    font-family: 'Favorit Tumblr 85', sans-serif;
+}
+
+.bsky-theme, .card.bsky {
+    --background: #151d28;
+    --border-color: hsl(215, 28%, 24%);
+    --text: #fff;
+    --sub-text: rgb(171, 184, 201);
+    --link-text: hsl(215, 100%, 53%);
+    --link-hover: hsl(215, 100%, 65%);
+    --dark-overlay: rgb(28, 39, 54);
+    --light-overlay: rgb(44, 58, 78);
+    font-family: "inter-variable", sans-serif;
+    font-variant: no-contextual;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    background-color: black;
+    min-height: 100vh;
+    font-family: sans-serif;
+    overscroll-behavior: none;
+}
+
+body {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    background-image: url(/assets/backgrounds/mc_bg_netherite.png);
+    background-blend-mode: soft-light;
+    background-color: var(--background-950);
+    background-size: 70px;
+    image-rendering: pixelated;
+}
+
+
+.page {
+    min-height: calc(95vh - 105px);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-bottom: 40px;
+}
+
+@media (max-width: 1300px) {
+    .page {
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 40px 0;
+    }
+}
+
+.scaler {
+    width: 600px;
+    display: block;
+}
+
+.card {
+    background: var(--background);
+    position: relative;
+    color: var(--text);
+    width: 600px; 
+    min-width: 600px;
+    max-width: 600px;
+    height: auto;
+    min-height: 650px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border: 5px solid black;
+    image-rendering: initial;
+    transform-origin: top left;
+    transition: box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.card:hover {
+    box-shadow: 0 0 0px 3px var(--secondary-600), 0 0 20px var(--secondary-600), 0 0 40px var(--secondary20) !important;
+    border-color: var(--background) !important;
+}
+
+.tumblr:hover {
+    box-shadow: 0 0 20px rgb(254 245 211 / 60%), 0 0 40px rgb(254 245 211 / 32%);
+    border-color: rgb(255 249 239);
+}
+
+.twitter:hover {
+    box-shadow: 0 0 20px rgb(29 155 240 / 45%), 0 0 40px rgb(29 155 240 / 29%);
+    border-color: #00d4ff;
+}
+
+.bsky:hover {
+    box-shadow: 0 0 20px rgb(15 115 255 / 91%), 0 0 40px rgb(15 115 255 / 36%);
+    border-color: rgb(60 179 241);
+}
+
+.navbar {
+    width: 100%;
+    min-height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 0;
+}
+
+.navlink {
+    width: 10em;
+    height: 3em;
+	position: relative;
+    border: 5px solid black;
+    background-color: hsl(208, 65%, 49%);
+    text-align:center;
+    transition:all cubic-bezier(.68,-0.55,.27,1.55) .5s;
+    font-family: sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: inset 0px 0 0px 7px hsl(203 72% 61% / 1);
+	
+	p {
+		margin:0;
+	}
+}
+
+.navlink:hover {
+	background-color:hsl(271, 85%, 32%) !important;
+	box-shadow: inset 0px 0 0px 7px hsl(271 74% 52% / 1) !important;
+	transition:all cubic-bezier(.19,-0.27,.42,1.14) 0.3s;
+	transform:translatey(10%);
+}
+
+#gallery-button {
+	font-size: 1.1em;
+	background-color: hsl(296, 85%, 59%);
+	box-shadow: inset 0px 0 0px 7px hsl(296, 86%, 70%);
+}
+
+#gallery-button::after {
+	content: "";
+    transition: inherit;
+	position: absolute;
+	top:0;
+	left:0;
+	width: 100%;
+	height: 100%;
+	box-shadow: 0 0 20px hsl(296, 86%, 70%, 50%), 0 0 40px hsl(296, 86%, 70%, 29%);
+}
+
+#gallery-button:hover::after {
+    transition: inherit;
+	box-shadow: 0 0 20px hsl(271, 74%, 52%, 50%), 0 0 40px hsl(271, 74%, 52%, 29%)
+}
+/* #gallery-button:hover {
+	transform:translatey(-20%);
+} */
+
+
+.pagedoll {
+    z-index: 99;
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    display: block;
+    padding: 6px;
+    margin: .5em;
+    font-size: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    color: var(--text);
+    background-color: var(--background);
+    opacity: 0.7;
+}
+
+.pagedoll::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+    pointer-events: none;
+}
+
+a {
+    color: var(--link-text);
+    text-decoration: none;
+}
+
+.button-group > a, .section-group a {
+    text-decoration: none !important;
+    color: unset;
+}
+
+.svg path {
+    fill: var(--sub-text);
+}
+
+.twitter-emoji {
+    width: 1.2em;
+    height: 1.2em;
+    vertical-align: sub;
+    display: inline-block;
+    margin: 0px 0.075em;
+}
+
+.twitter-icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -5%;
+    display: inline-block;
+    margin: 0px 0.075em;
+}
+
+.images {
+    position: relative;
+    align-items: inherit;
+    justify-items: inherit;
+}
+
+.pinned {
+
+}
+
+.tumblr {
+    align-items: center;
+    justify-items: center;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    
+    .images {
+        margin-bottom: 50px;
+    }
+
+    .header {
+        aspect-ratio: 16/9;
+        overflow: hidden;
+    }
+
+    .header img {
+        object-position: center;
+    }
+
+    .pfp {
+        position: absolute;
+        top: 271px;
+        border: 5px solid var(--background);
+        background: var(--background);
+        width: 6em;
+    }
+
+    .info {
+        
+    }
+
+    .title {
+        font-family: "Sans Serif";
+        font-weight: bold;
+        font-size: 1.6em;
+    }
+
+    .subtitle {
+        font-family: 'Favorit Tumblr';
+        font-size: 1em;
+        margin: 8px 0;
+        display: block;
+    }
+
+    .badges {
+        width: fit-content;
+        background-color: var(--dark-overlay);
+        display: inline-flex;
+        padding: 4px;
+        gap: 2px;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        
+        img {
+            width: 16px;
+            height: auto;
+        }
+    }
+
+    .description {
+        font-size: 1em;
+        font-weight: 400;
+        white-space: pre-line;
+        word-wrap: break-word;
+        line-height: 25px;
+    }
+
+    .button-group {
+        gap: 7px;
+        margin-top: 15px;
+    }
+
+    .button {
+        font-family: 'Favorit Tumblr';
+        position: relative;
+        width: auto;
+        background-color: var(--text);
+        color: var(--background);
+        font-size: 1em;
+        line-height: 1.5;
+        padding: 9px 17px;
+        border-radius: 22px;
+    }
+
+    .button.dots {
+        background-color: var(--background);
+        border: 2px solid var(--light-overlay);
+        color: var(--text);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-height: 100%;
+        aspect-ratio: 1/1;
+        padding: 0px;
+        height: 36px;
+    }
+}
+
+.twitter, .bsky {
+    .images {
+        margin-bottom: 75px;
+    }
+
+    .header {
+        width: 100%;
+        max-height: 500px;
+        aspect-ratio: 3/1;
+    }
+
+    .pfp {
+        position: absolute;
+        left: 15px;
+    }
+
+    .section-group {
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+    }
+
+    .section a {
+    }
+
+    .section {
+        color: var(--sub-text);
+        flex-grow: 1;
+        padding: 14px 0;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .section:first-child {
+        color: var(--text);
+    }
+}
+
+.twitter {
+    
+    a:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+    
+    .header {
+        height: 200px;
+    }
+
+    .pfp {
+        border: 3px var(--background) solid;
+        top: 130px;
+        width: 8em;
+    }
+
+    .button-group {
+        position: absolute;
+        right: 15px;
+        color: var(--background);
+        top: 212px;
+    }
+
+    .button {
+        background-color: var(--text);
+        color: var(--background);
+        font-weight: 700;
+        min-width: 60px;
+        min-height: 36px;
+        padding: 0 12px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .button:hover {
+        cursor: pointer;
+        background-color: rgb(215, 219, 220);
+    }
+
+    .button > p {
+        line-height: 20px;
+        white-space: nowrap;
+        word-wrap: break-word;
+    }
+
+    .title {
+        font-size: 20px;
+        font-weight: 800;
+    }
+
+    .description {
+        white-space: pre-line;
+        word-wrap: break-word;
+        margin-top: 15px;
+    }
+
+    .sub-info {
+        font-size: 15px;
+        color: var(--sub-text);
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 15px;
+        margin: 15px 0;
+    }
+
+    .sub-info .join-date a {
+        color: var(--sub-text);
+    }
+
+    .sub-info > div {
+        display: inline-block;
+    }
+
+    .numbers {
+        color: var(--sub-text);
+        font-size: 14px;
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
+        margin: 6px 0px;
+    }
+
+    .numbers a {
+        vertical-align: baseline;
+        color: var(--sub-text);
+    }
+
+    .numbers a:hover {
+        text-decoration: underline;
+        text-decoration-color: white;
+        cursor: pointer;
+    }
+
+    .numbers span {
+        color: var(--text);
+        font-weight: 700;
+    }
+
+    .section-group {
+        margin-top: 10px;
+    }
+
+
+    .section:hover {
+        background-color: rgba(231, 233, 234, 0.1)
+    }
+
+    .section:first-child {
+        font-weight: bold;
+    }
+
+    .section:first-child::after {
+        content: " ";
+        display: block;
+        background-color: var(--link-text);
+        height: 3px;
+        width: 45px;
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+}
+
+.bsky {
+
+    a {
+        color: unset;
+        cursor: pointer;
+    }
+
+    .images {
+        margin-bottom: 55px;
+    }
+
+    .header {
+        height: 150px;
+    }
+
+    .pfp {
+        width: 6em;
+        top: 100px;
+    }
+
+    .button-group {
+        position: absolute;
+        right: 15px;
+        color: var(--text);
+        top: 165px;
+        gap: 5px;
+    }
+
+    .button.follow {
+        background-color: var(--link-text);
+        font-size: 14px;
+        font-weight: 500;
+        padding: 10px 15px;
+        gap: 5px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .button.follow:hover {
+        background-color: var(--link-hover);
+    }
+
+    .button > p {
+        line-height: 20px;
+        white-space: nowrap;
+        word-wrap: break-word;
+    }
+
+    .button.dots {
+        background-color: var(--dark-overlay);
+        color: var(--sub-text);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-height: 100%;
+        aspect-ratio: 1/1;
+        padding: 0px;
+        height: 37px;
+        cursor: pointer;
+    }
+
+    .button.dots:hover {
+        background-color: var(--light-overlay);
+    }
+
+    .info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        font-size: 14px;
+    }
+
+    .title {
+        font-size: 24px;
+        letter-spacing: 0px;
+        align-self: flex-start;
+        font-weight: 700;
+        line-height: 35px;
+    }
+
+    .description {
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+        font-size: 15px;
+        letter-spacing: 0px;
+        line-height: 20px;
+    }
+
+    .numbers {
+        color: var(--sub-text);
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
+        margin: 6px 0px;
+    }
+
+    .numbers a:hover {
+        text-decoration: underline;
+        text-decoration-color: white;
+    }
+
+    .numbers span {
+        color: var(--text);
+        font-weight: 600;
+    }
+
+    .section-group {
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    .section {
+        font-weight: bold;
+    }
+
+    .section:hover {
+        background-color: var(--dark-overlay);
+    }
+
+    .section:first-child::after {
+        content: " ";
+        display: block;
+        background-color: var(--link-text);
+        height: 3px;
+        width: 45px;
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+.header {
+    width: auto;
+    height: auto;
+    overflow: hidden;
+}
+
+.header img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pfp {
+    overflow: hidden;
+    aspect-ratio: 1/1;
+    object-position: center;
+    border-radius: 100%;
+}
+
+.pfp img {
+    height: 100%;
+    width: 100%;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.button {
+    background-color: white;
+    position: relative;
+    border-radius: 20px;
+    text-align: center;
+    padding: 5px;
+}
+
+.info {
+    color: var(--text);
+    margin: 0px 20px;
+    /* text-align: center; */
+}
+
+.title {
+    color: var(--title-text);
+}
+
+.subtitle {
+    color: var(--sub-text)
+}
+
+.description {
+
+}
+
+.pinned {
+    
+}
+
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
+        padding: 20px 0;
+        gap: 15px;
+    }
+
+    .navbar a {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .navlink {
+        width: 80%;
+        max-width: 300px;
+    }
+}
