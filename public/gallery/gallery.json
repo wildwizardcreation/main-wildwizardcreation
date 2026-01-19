@@ -1,5 +1,36 @@
 [
   {
+    "filename": "quaritch02.png",
+    "rating": "sfw",
+    "tags": [],
+    "fandom": [
+      "Avatar"
+    ],
+    "date": "1/17/2026",
+    "notes": ""
+  },
+  {
+    "filename": "newom01.png",
+    "rating": "sfw",
+    "tags": [],
+    "fandom": [
+      "Avatar",
+      "Original Content"
+    ],
+    "date": "1/11/2026",
+    "notes": ""
+  },
+  {
+    "filename": "quaritch01.png",
+    "rating": "sfw",
+    "tags": [],
+    "fandom": [
+      "Avatar"
+    ],
+    "date": "1/16/2026",
+    "notes": ""
+  },
+  {
     "filename": "scar42.jpg",
     "rating": "sfw",
     "tags": [
@@ -54,6 +85,16 @@
       "Hermitcraft"
     ],
     "date": "06/27/2025"
+  },
+  {
+    "filename": "superman01.png",
+    "preview-2": "superman02.png",
+    "rating": "sfw",
+    "tags": [],
+    "fandom": [
+      "DCU"
+    ],
+    "date": "9/5/2025"
   },
   {
     "filename": "absolute1.png",
@@ -149,6 +190,19 @@
     ],
     "date": "12/14/2025",
     "notes": ""
+  },
+  {
+    "filename": "absolute_test.png",
+    "rating": "nsfw",
+    "tags": [
+      "age",
+      "incest"
+    ],
+    "fandom": [
+      "DCU"
+    ],
+    "date": "10/29/2025",
+    "notes": "test image"
   },
   {
     "filename": "superman01.png",
