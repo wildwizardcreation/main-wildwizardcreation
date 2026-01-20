@@ -1,0 +1,71 @@
+name: update last updated
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-pagedoll:
+    runs-on: ubuntu-latest
+    if: "!startsWith(github.event.head_commit.message, 'chore: update commit pagedoll')"
+    permissions:
+      contents: write
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: update html with python
+        env:
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+        run: |
+          python3 -c "
+          import os
+          import re
+          from datetime import datetime
+
+          # get environment variables
+          msg = os.environ.get('COMMIT_MSG', 'no message')
+          
+          # clean the message
+          # take first line only
+          clean_msg = msg.split('\n')[0]
+          # optional: limit length to prevent layout breaks
+          if len(clean_msg) > 60:
+              clean_msg = clean_msg[:57] + '...'
+
+          # get date
+          current_date = datetime.now().strftime('%m/%d/%Y')
+          
+          # read index
+          with open('index.html', 'r', encoding='utf-8') as f:
+              content = f.read()
+
+          # replacement 1: date
+          # looks for <p id="last-updated">...</p>
+          content = re.sub(
+              r'<p id=\"last-updated\">.*?</p>', 
+              f'<p id=\"last-updated\">last updated: {current_date}</p>', 
+              content
+          )
+
+          # replacement 2: commit message
+          # looks for <p id="last-commit">...</p>
+          content = re.sub(
+              r'<p id=\"last-commit\">.*?</p>', 
+              f'<p id=\"last-commit\">commit message: {clean_msg}</p>', 
+              content
+          )
+
+          # write back
+          with open('index.html', 'w', encoding='utf-8') as f:
+              f.write(content)
+          "
+
+      - name: commit and push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: update commit pagedoll [skip ci]" && git push)
