@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    // r2 bucket url -> bypass vercel proxy for main gallery grid
+    const R2_BASE_URL = 'https://bucket.wildwizardcreation.com/';
+    
     const $body = $('body');
     const $checkboxItems = $('.checkbox-item');
     const $selectAllButton = $('#selectAllCheckboxes');
@@ -15,6 +18,38 @@ $(document).ready(function() {
     let allSelected = false;
     let masterGalleryData = [];
     let resizeTimeout;
+
+
+    function fetchDominantColor(sourceUrl, $targetElement, $secondaryElement) {
+        if (!sourceUrl) return;
+
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.src = sourceUrl + "?cors=yes";
+
+        img.onload = function() {
+            try {
+                const color = colorThief.getColor(img);
+                const rgb = `rgb(${color.join(',')})`;
+                
+                const applyColor = ($el) => {
+                    $el.data('dominant-color', rgb);
+                    if ($el.is(':hover')) {
+                        $el.parent().css('--image-border', rgb);
+                    }
+                };
+
+                applyColor($targetElement);
+
+                if ($secondaryElement) {
+                    applyColor($secondaryElement);
+                }
+
+            } catch (e) {
+                console.warn('background color extraction failed', e);
+            }
+        };
+    }
 
     function getDropdownValue($dropdown) {
         return $dropdown.attr('data-value');
@@ -227,16 +262,26 @@ $(document).ready(function() {
         masterGalleryData = gallery.map(image => {
             image.parsedDate = parseDate(image.date);
             
-            const imageUrl = `/gallery/${image.filename}`;
+            // setup two sets of urls:
+            // 1. raw url: loads directly from r2 bucket (saves vercel bandwidth)
+            // 2. pretty url: cleaner url for sharing/linking (uses vercel proxy)
+            const rawUrl = `${R2_BASE_URL}${image.filename}`;
+            const prettyUrl = `/gallery/${image.filename}`;
+            
             const imageFandoms = (image.fandom || []).join(',');
-            const preview2 = image['preview-2'] ? `/gallery/${image['preview-2']}` : '';
+            
+            // handle preview-2 similarly if it exists
+            const preview2Raw = image['preview-2'] ? `${R2_BASE_URL}${image['preview-2']}` : '';
+            const preview2Pretty = image['preview-2'] ? `/gallery/${image['preview-2']}` : '';
             
             const $imgElement = $('<img>', {
                 'class': 'gallery-image',
-                'data-src': imageUrl,
+                'data-src': rawUrl, // load the raw url
+                'data-pretty': prettyUrl, // store pretty url for new tab events
                 'rating': image.rating,
                 'fandom': imageFandoms,
-                'data-preview-2': preview2
+                'data-preview-2-raw': preview2Raw,
+                'data-preview-2-pretty': preview2Pretty
             });
 
             const $wrapper = $('<div>').addClass('image-div').append($imgElement);
@@ -291,8 +336,15 @@ $(document).ready(function() {
 
     $galleryContainer.on('click', '.gallery-image', function() {
         const $clickedImage = $(this);
+        
+        // get the currently loaded src (raw R2 url)
         const preview1_src = $clickedImage.attr('src');
-        const preview2_src = $clickedImage.data('preview-2');
+        // get the stored pretty url
+        const preview1_pretty = $clickedImage.data('pretty');
+        
+        // get both versions for the second image
+        const preview2_src = $clickedImage.data('preview-2-raw');
+        const preview2_pretty = $clickedImage.data('preview-2-pretty');
 
         if (!preview1_src) return;
 
@@ -301,19 +353,41 @@ $(document).ready(function() {
 
         $previewImage1.removeAttr('style').attr('src', '');
         $previewImage2.removeAttr('style').attr('src', '');
+        $previewImage1.removeData('dominant-color');
+        $previewImage2.removeData('dominant-color');
+        $previewImage1.parent().css('--image-border', 'var(--background)');
+        $previewImage2.parent().css('--image-border', 'var(--background)');
+
         $preview2Wrapper.hide();
 
+        // load first image
         const load1 = new Promise(resolve => {
-            $previewImage1.one('load', resolve).attr('src', preview1_src);
+            $previewImage1
+                .one('load error', resolve) 
+                .removeAttr('crossorigin') // FAST LOAD: use cache, no cors
+                .attr('src', preview1_src)
+                .data('pretty-link', preview1_pretty); 
+            
             if ($previewImage1.prop('complete')) $previewImage1.trigger('load');
+
+            // uses first image color for both previews if second exists
+            const $secondaryTarget = preview2_src ? $previewImage2 : null;
+            fetchDominantColor(preview1_src, $previewImage1, $secondaryTarget);
         });
         loadPromises.push(load1);
 
+        // load second image if it exists
         if (preview2_src) {
             $preview2Wrapper.show();
             const load2 = new Promise(resolve => {
-                $previewImage2.one('load', resolve).attr('src', preview2_src);
+                $previewImage2
+                    .one('load error', resolve)
+                    .removeAttr('crossorigin')
+                    .attr('src', preview2_src)
+                    .data('pretty-link', preview2_pretty);
+                
                 if ($previewImage2.prop('complete')) $previewImage2.trigger('load');
+
             });
             loadPromises.push(load2);
         }
@@ -333,22 +407,22 @@ $(document).ready(function() {
         }
     });
     
+    // updated handler: opens the pretty link instead of the raw src
     $('.preview-image').on('click', function(e) {
         e.stopPropagation();
-        window.open($(this).attr('src'), '_blank');
+        const prettyLink = $(this).data('pretty-link');
+        
+        // fallback to src if pretty link is missing for some reason
+        const urlToOpen = prettyLink || $(this).attr('src');
+        window.open(urlToOpen, '_blank');
     });
 
-    $('.preview-image').hover(
-        function() {
-            if (!this.complete || this.naturalWidth === 0) return;
-            try {
-                const dominantColor = colorThief.getColor(this);
-                const borderColor = `rgb(${dominantColor.join(',')})`;
-                $(this).parent().css('--image-border', borderColor);
-            } catch (e) {
-                console.error("ColorThief error:", e);
-                $(this).parent().css('--image-border', 'var(--background)');
-            }
+    $('.preview-image').on('mouseenter', function() {
+        const color = $(this).data('dominant-color');
+        if (color) {
+            $(this).parent().css('--image-border', color);
+        } else {
+            $(this).parent().css('--image-border', 'var(--background)');
         }
-    );
+    });
 });
