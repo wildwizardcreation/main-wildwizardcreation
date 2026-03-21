@@ -209,20 +209,66 @@ $(document).ready(function() {
 
     function saveState() {
         const filterStates = {};
+        const activeTags = [];
+        
+        // save states and collect active tags for the url
         $('#checkbox-filters .checkbox-item').each(function() {
             filterStates[this.id] = this.checked;
+            if (this.checked) {
+                activeTags.push($(this).attr('data-tag'));
+            }
         });
+        
+        const currentFandom = getDropdownValue($fandomDropdown);
+        const currentSort = getDropdownValue($sortDropdown);
+
         localStorage.setItem('galleryFilters', JSON.stringify(filterStates));
-        localStorage.setItem('galleryFandom', getDropdownValue($fandomDropdown));
-        localStorage.setItem('gallerySort', getDropdownValue($sortDropdown));
+        localStorage.setItem('galleryFandom', currentFandom);
+        localStorage.setItem('gallerySort', currentSort);
+
+        // update the url parameters silently
+        const url = new URL(window.location);
+        
+        if (activeTags.length > 0) {
+            url.searchParams.set('tags', activeTags.join(','));
+        } else {
+            url.searchParams.delete('tags');
+        }
+
+        if (currentFandom && currentFandom !== 'all') {
+            url.searchParams.set('fandom', currentFandom);
+        } else {
+            url.searchParams.delete('fandom');
+        }
+
+        if (currentSort && currentSort !== 'newest') {
+            url.searchParams.set('sort', currentSort);
+        } else {
+            url.searchParams.delete('sort');
+        }
+
+        window.history.replaceState({}, '', url);
     }
 
     function loadState() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlFandom = urlParams.get('fandom');
+        const urlTags = urlParams.get('tags'); 
+        const urlSort = urlParams.get('sort');
+
         const savedFiltersJSON = localStorage.getItem('galleryFilters');
         const savedFandom = localStorage.getItem('galleryFandom');
         const savedSort = localStorage.getItem('gallerySort');
 
-        if (savedFiltersJSON === null) {
+        // handle tags: url overrides local storage
+        if (urlTags !== null) {
+            // clear default checkboxes to prep for url tags
+            $('.checkbox-item').prop('checked', false);
+            const tagsArray = urlTags.split(',');
+            tagsArray.forEach(tag => {
+                $(`.checkbox-item[data-tag="${tag.trim()}"]`).prop('checked', true);
+            });
+        } else if (savedFiltersJSON === null) {
             $('[data-tag="rpf"]').prop('checked', true); 
         } else {
             const savedFilters = JSON.parse(savedFiltersJSON);
@@ -232,9 +278,17 @@ $(document).ready(function() {
             });
         }
 
-        if (savedFandom) { setDropdownValue($fandomDropdown, savedFandom); }
+        // handle fandom: url overrides local storage
+        if (urlFandom !== null) {
+            setDropdownValue($fandomDropdown, urlFandom);
+        } else if (savedFandom) { 
+            setDropdownValue($fandomDropdown, savedFandom); 
+        }
         
-        if (savedSort) { 
+        // handle sort: url overrides local storage
+        if (urlSort !== null) {
+            setDropdownValue($sortDropdown, urlSort);
+        } else if (savedSort) { 
             setDropdownValue($sortDropdown, savedSort); 
         } else {
             setDropdownValue($sortDropdown, 'newest');
